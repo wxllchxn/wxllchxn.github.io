@@ -1,0 +1,15 @@
+general_purpose:
+  label: General Purpose
+  items: [C, C++, Python, Java]
+
+frontend:
+  label: Frontend
+  items: [Swift, Obj-C, JavaScript, TypeScript, HTML, CSS, jQuery, React, React Native, Bootstrap]
+
+devops:
+  label: DevOps
+  items: [AWS, SQL, Unix, Docker, Kubernetes, Git]
+
+machine_learning:
+  label: Machine Learning
+  items: [TensorFlow, OpenCV, Google AutoML]

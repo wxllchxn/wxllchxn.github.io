@@ -1,0 +1,12 @@
+// Custom styles for personal site (Minima override)
+.post-content h2 {
+  margin-top: 1.5em;
+  padding-top: 0.5em;
+  border-top: 1px solid #eaeaea;
+}
+
+.post-content h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
