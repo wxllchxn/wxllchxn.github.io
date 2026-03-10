@@ -1,6 +1,28 @@
 (function () {
   'use strict';
 
+  // Hero / intro: reveal immediately (no scroll-reveal delay)
+  var intro = document.getElementById('introduction');
+  if (intro) intro.classList.add('revealed');
+
+  // Scroll reveal: add .revealed when section enters viewport
+  var sections = document.querySelectorAll('.page-section');
+  if (typeof IntersectionObserver !== 'undefined') {
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add('revealed');
+        });
+      },
+      { rootMargin: '-80px 0px -80px 0px', threshold: 0 }
+    );
+    sections.forEach(function (el) {
+      if (el.id !== 'introduction') revealObserver.observe(el);
+    });
+  } else {
+    sections.forEach(function (el) { el.classList.add('revealed'); });
+  }
+
   // Work experience tabs
   var tabList = document.querySelector('.work-tabs[role="tablist"]');
   if (tabList) {

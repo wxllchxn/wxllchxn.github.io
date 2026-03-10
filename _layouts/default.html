@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include head.html %}
+</head>
+<body class="site-body layout-default">
+  {{ content }}
+  <footer class="site-footer">
+    <div class="footer-inner">
+      &copy; {{ site.time | date: '%Y' }} {{ site.author }}
+      <a href="{{ site.github_url }}">GitHub</a>
+    </div>
+  </footer>
+</body>
+</html>

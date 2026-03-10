@@ -8,15 +8,7 @@ description: >-
   Personal site of William Wei-Chi Chen — Software Engineer, MS CS at University of Washington.
 baseurl: ""
 url: "https://wxllchxn.github.io"
-theme: minima
 author: William Wei-Chi Chen
-
-# Minima
-minima:
-  skin: classic
-  social_links:
-    - { platform: github, user_url: "https://github.com/wxllchxn" }
-    - { platform: linkedin, user_url: "https://www.linkedin.com/in/wxllchxn/" }
 
 # Build
 markdown: kramdown
