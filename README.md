@@ -1,14 +1,12 @@
 # William Wei-Chi Chen — Personal Site
 
-**URL:** https://wxllchxn.github.io
+**URL:** https://wxllchxn.dev
 
 Personal site built with Jekyll on GitHub Pages. 
 
-**Local build:** Requires Ruby 3.0+ (e.g. `rbenv install` then `bundle install` and `bundle exec jekyll serve`). GitHub Pages builds the site automatically on push.
-
 # AI Usage documentation
 
-Cursor with Plan and Agent mode was used to assist site creation in Part 1. Prompts below
+Cursor with Plan and Agent mode (with Auto model selection) was used to assist site creation in Part 1. Prompts below
 
 ## Part 1
 
