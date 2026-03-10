@@ -8,8 +8,18 @@ Personal site built with Jekyll on GitHub Pages.
 
 # AI Usage documentation
 
-Cursor with Plan and Agent mode was used to assist in Jekyll setup and page content creation. Prompts below
+Cursor with Plan and Agent mode was used to assist site creation in Part 1. Prompts below
 
 ## Part 1
 
 1. I am implementing a personal github page. Attached below is the provided instructions. [Project description attached]. Please plan for Part 1 (Jekyll setup for github pages) with content populated from my resume.
+
+2. We have a very minimalist website - let's try to spice it up a bit more. I'm looking for the following features, with an infinite scroll-esque background.
+  - Website organized by sections
+    - Introduction (Profile picture, name, resume link, linked in link, github link, bullet points of introduction)
+    - Work Experience (maybe tabs for difference experience? Feel free to suggest other organizations)
+    - Education
+    - Certifications
+    - Contact (contact information, email form)
+  - Top Nav for navigating to different sections
+  Ask any clarifying questions if needed.
