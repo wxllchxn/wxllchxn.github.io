@@ -25,3 +25,7 @@ Cursor with Plan and Agent mode was used to assist site creation in Part 1. Prom
   Ask any clarifying questions if needed.
 
 3. Now - instead of minima, can we do something a bit more stylized? I want it to look like a fancy startup website, with nice backgrounds and animations.
+
+4. The cards look a bit awkward. Requesting the following changes
+  - Let's make each section take over the entire window. On scroll, scroll to the next section
+  - Please feel free to look for backgrounds and/or add content so each section doesn't feel too empty

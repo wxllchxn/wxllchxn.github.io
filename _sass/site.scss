@@ -18,6 +18,8 @@ $transition: 0.25s ease;
 // --- Base ---
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 4rem;
 }
 
 body.site-body {
@@ -29,31 +31,79 @@ body.site-body {
   background: $color-bg;
 }
 
+// --- Section inner (max-width content) ---
+.section-inner {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-tagline {
+  margin: -0.5rem 0 1.5rem 0;
+  font-size: 1.05rem;
+  color: $color-text-muted;
+  max-width: 42ch;
+}
+
+// --- Page sections: full viewport + scroll snap ---
+.page-sections {
+  width: 100%;
+}
+
+.page-section {
+  position: relative;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.page-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Hero visible on first paint (no FOUC)
+#introduction.page-section {
+  opacity: 1;
+  transform: none;
+}
+
+.page-section h2 {
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.75rem;
+  font-family: $font-display;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $color-text;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+}
+
 // --- Hero / Introduction section ---
 #introduction.page-section {
-  position: relative;
-  padding: 4rem 1rem 5rem;
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.08), transparent),
-      radial-gradient(ellipse 50% 30% at 0% 80%, rgba(59, 130, 246, 0.08), transparent),
-      linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-    z-index: -1;
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.18), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.1), transparent),
+      radial-gradient(ellipse 50% 30% at 0% 80%, rgba(59, 130, 246, 0.1), transparent),
+      linear-gradient(180deg, #f8fafc 0%, #eef2ff 50%, #f1f5f9 100%);
+    z-index: 0;
     animation: hero-bg-shift 15s ease-in-out infinite;
   }
 
   .intro-content {
-    max-width: $max-width;
-    margin: 0 auto;
     display: flex;
     gap: 2.5rem;
     align-items: flex-start;
@@ -87,9 +137,16 @@ body.site-body {
   }
 
   .intro-subtitle {
-    margin: 0 0 1.25rem 0;
+    margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
     color: $color-text-muted;
+  }
+
+  .intro-tagline {
+    margin: 0 0 1.25rem 0;
+    font-size: 1rem;
+    color: $color-text-muted;
+    max-width: 36ch;
   }
 
   .intro-links {
@@ -130,6 +187,25 @@ body.site-body {
     line-height: 1.7;
     color: $color-text-muted;
   }
+
+  .intro-skills-label {
+    margin: 1rem 0 0 0;
+    font-size: 0.9rem;
+    color: $color-text-muted;
+    opacity: 0.9;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: $color-text-muted;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: scroll-hint-bounce 2s ease-in-out infinite;
+  }
 }
 
 @keyframes hero-bg-shift {
@@ -146,6 +222,11 @@ body.site-body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes scroll-hint-bounce {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) translateY(4px); }
 }
 
 // --- Sticky nav (glassmorphism) ---
@@ -200,50 +281,25 @@ body.site-body {
 
 // --- Page sections container ---
 .page-sections {
-  max-width: $max-width;
-  margin: 0 auto;
-  padding: 0 1rem 4rem;
+  width: 100%;
 }
 
-.page-section {
-  padding: 4rem 0;
-  min-height: 50vh;
-  scroll-margin-top: 4rem;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.page-section.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-// Hero visible on first paint (no FOUC)
-#introduction.page-section {
-  opacity: 1;
-  transform: none;
-}
-
-.page-section h2 {
-  margin: 0 0 1.5rem 0;
-  padding-bottom: 0.75rem;
-  font-family: $font-display;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: $color-text;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
-}
-
-// --- Work section (alternate background) ---
+// --- Work section: full-viewport + background ---
 #work.page-section {
-  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
-  border-radius: $radius;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(165deg, #f0f4ff 0%, #e8ecff 30%, #fff 100%),
+      radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.06), transparent 50%);
+    z-index: 0;
+  }
+}
+
+#work .section-inner {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
 #work .work-tabs {
@@ -307,9 +363,17 @@ body.site-body {
   line-height: 1.7;
 }
 
-// --- Education (card-style) ---
+// --- Education (card-style + background) ---
 #education.page-section {
-  background: #fff;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, #fff 0%, #f8fafc 50%, #f0f9ff 100%),
+      radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05), transparent 45%);
+    z-index: 0;
+  }
 }
 
 .education-item {
@@ -337,12 +401,15 @@ body.site-body {
 
 // --- Certifications ---
 #certifications.page-section {
-  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
-  border-radius: $radius;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, #faf5ff 0%, #f5f3ff 40%, #fff 100%),
+      radial-gradient(circle at 10% 60%, rgba(139, 92, 246, 0.06), transparent 40%);
+    z-index: 0;
+  }
 }
 
 .cert-list {
@@ -362,13 +429,15 @@ body.site-body {
 
 // --- Contact (accent section) ---
 #contact.page-section {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #6366f1 100%);
-  background-size: 200% 200%;
-  animation: contact-bg 12s ease infinite;
-  border-radius: $radius;
-  padding: 4rem 1.5rem;
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #6366f1 100%);
+    background-size: 200% 200%;
+    animation: contact-bg 12s ease infinite;
+    z-index: 0;
+  }
 }
 
 @keyframes contact-bg {
@@ -379,6 +448,10 @@ body.site-body {
 #contact h2 {
   color: #fff;
   border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+#contact .section-tagline {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 #contact p {
@@ -410,6 +483,7 @@ body.site-body {
   background: $color-text;
   color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
+  scroll-snap-align: none;
 }
 
 .site-footer .footer-inner {
