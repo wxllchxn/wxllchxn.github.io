@@ -90,6 +90,14 @@ body.site-body {
 
 // --- Hero / Introduction section ---
 #introduction.page-section {
+  .section-inner {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+  }
+
   &::before {
     content: "";
     position: absolute;
@@ -196,10 +204,10 @@ body.site-body {
   }
 
   .scroll-hint {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    align-self: center;
     font-size: 0.8rem;
     color: $color-text-muted;
     letter-spacing: 0.1em;
@@ -314,26 +322,78 @@ body.site-body {
 }
 
 #work .tab-buttons button {
-  padding: 0.6rem 1.25rem;
+  padding: 0.75rem 1rem;
   border: none;
   background: rgba(0, 0, 0, 0.06);
   color: $color-text-muted;
   cursor: pointer;
-  border-radius: 999px;
+  border-radius: 18px;
   font-size: 0.95rem;
   font-family: $font-body;
   font-weight: 500;
-  transition: background $transition, color $transition;
+  transition: background $transition, color $transition, transform $transition;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
 }
 
 #work .tab-buttons button:hover {
   background: rgba(0, 0, 0, 0.1);
   color: $color-text;
+  transform: translateY(-1px);
 }
 
 #work .tab-buttons button[aria-selected="true"] {
   background: $color-accent;
   color: #fff;
+}
+
+.work-tab-icon {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: $font-display;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.75);
+  color: $color-text;
+}
+
+.work-tab-icon-netflix {
+  background: #e50914;
+  color: #fff;
+}
+
+.work-tab-icon-amazon {
+  background: #111827;
+  color: #ffb11a;
+}
+
+.work-tab-icon-tailabs {
+  background: linear-gradient(135deg, #0f766e, #155e75);
+  color: #fff;
+}
+
+.work-tab-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.work-tab-company {
+  font-weight: 600;
+}
+
+.work-tab-dates {
+  font-size: 0.76rem;
+  opacity: 0.8;
 }
 
 #work .tab-panel {
@@ -351,6 +411,28 @@ body.site-body {
   font-weight: 600;
 }
 
+.tab-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.work-panel-badge {
+  min-width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.12);
+  color: $color-accent;
+  font-family: $font-display;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 #work .work-meta {
   margin: 0 0 1rem 0;
   color: $color-text-muted;
@@ -361,6 +443,38 @@ body.site-body {
   margin: 0;
   padding-left: 1.25rem;
   line-height: 1.7;
+}
+
+.work-role-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.work-role-card {
+  padding: 1rem 1.1rem;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  border-radius: 14px;
+}
+
+.work-role-topline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.work-role-topline h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.work-role-dates {
+  color: $color-text-muted;
+  font-size: 0.82rem;
+  white-space: nowrap;
 }
 
 // --- Education (card-style + background) ---
@@ -378,11 +492,13 @@ body.site-body {
 
 .education-item {
   margin-bottom: 1.5rem;
-  padding: 1.25rem 1.5rem;
   background: $color-card-bg;
   border-radius: $radius;
   box-shadow: $shadow;
   transition: box-shadow $transition, transform $transition;
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  overflow: hidden;
 }
 
 .education-item:hover {
@@ -392,6 +508,44 @@ body.site-body {
 
 .education-item p {
   margin: 0.25rem 0;
+}
+
+.rail-card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.rail-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  font-family: $font-display;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.rail-icon-uw {
+  background: linear-gradient(180deg, #4b2e83, #7656b3);
+}
+
+.rail-icon-umich {
+  background: linear-gradient(180deg, #00274c, #0a4d86);
+  color: #ffcb05;
+}
+
+.rail-icon-aws {
+  background: linear-gradient(180deg, #111827, #1f2937);
+  color: #ffb11a;
+  font-size: 1.1rem;
+}
+
+.rail-icon-java {
+  background: linear-gradient(180deg, #b45309, #ea580c);
+  color: #fff7ed;
+  font-size: 1rem;
 }
 
 .edu-meta {
@@ -412,19 +566,12 @@ body.site-body {
   }
 }
 
-.cert-list {
-  margin: 0;
-  padding-left: 1.25rem;
-  line-height: 2;
+.certification-item .rail-card-body p:first-child {
+  margin-top: 0;
 }
 
-.cert-list li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.cert-list li:last-child {
-  border-bottom: none;
+.certification-item .rail-card-body p:last-child {
+  margin-bottom: 0;
 }
 
 // --- Contact (accent section) ---
@@ -475,6 +622,26 @@ body.site-body {
 .contact-mailto:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 720px) {
+  #work .tab-buttons button {
+    width: 100%;
+  }
+
+  .tab-panel-header,
+  .work-role-topline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .education-item {
+    grid-template-columns: 68px 1fr;
+  }
+
+  .rail-icon {
+    font-size: 1.25rem;
+  }
 }
 
 // --- Footer ---

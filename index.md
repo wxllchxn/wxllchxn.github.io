@@ -36,19 +36,40 @@ title: William Wei-Chi Chen
     <p class="section-tagline">Building products at scale — from mobile to platform.</p>
     <div class="work-tabs" role="tablist" aria-label="Work experience">
       <div class="tab-buttons">
-        {% for exp in site.data.experience %}
-        <button type="button" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="panel-{{ forloop.index0 }}" id="tab-{{ forloop.index0 }}" data-tab-index="{{ forloop.index0 }}">{{ exp.company }}</button>
+        {% for company in site.data.experience %}
+        <button type="button" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="panel-{{ forloop.index0 }}" id="tab-{{ forloop.index0 }}" data-tab-index="{{ forloop.index0 }}">
+          <span class="work-tab-icon work-tab-icon-{{ company.icon_key }}">{{ company.icon_label }}</span>
+          <span class="work-tab-copy">
+            <span class="work-tab-company">{{ company.company }}</span>
+            <span class="work-tab-dates">{{ company.button_dates }}</span>
+          </span>
+        </button>
         {% endfor %}
       </div>
-      {% for exp in site.data.experience %}
+      {% for company in site.data.experience %}
       <div role="tabpanel" id="panel-{{ forloop.index0 }}" class="tab-panel" {% unless forloop.first %}hidden{% endunless %}>
-        <h3>{{ exp.title }}</h3>
-        <p class="work-meta">{{ exp.company }} · {{ exp.location }} · <em>{{ exp.dates }}</em></p>
-        <ul>
-          {% for bullet in exp.bullets %}
-          <li>{{ bullet }}</li>
+        <div class="tab-panel-header">
+          <div>
+            <h3>{{ company.company }}</h3>
+            <p class="work-meta">{{ company.location }} · <em>{{ company.button_dates }}</em></p>
+          </div>
+          <span class="work-panel-badge">{{ company.icon_label }}</span>
+        </div>
+        <div class="work-role-list">
+          {% for role in company.roles %}
+          <article class="work-role-card">
+            <div class="work-role-topline">
+              <h4>{{ role.title }}</h4>
+              <span class="work-role-dates">{{ role.dates }}</span>
+            </div>
+            <ul>
+              {% for bullet in role.bullets %}
+              <li>{{ bullet }}</li>
+              {% endfor %}
+            </ul>
+          </article>
           {% endfor %}
-        </ul>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -61,8 +82,11 @@ title: William Wei-Chi Chen
     <p class="section-tagline">Graduate and undergraduate studies in computer science.</p>
     {% for edu in site.data.education %}
     <div class="education-item">
-      <p><strong>{{ edu.degree }}</strong> — {{ edu.school }}</p>
-      <p class="edu-meta"><em>{{ edu.dates }}</em> · {{ edu.location }} · GPA {{ edu.gpa }}</p>
+      <div class="rail-icon rail-icon-{{ edu.icon_key }}">{{ edu.icon_label }}</div>
+      <div class="rail-card-body">
+        <p><strong>{{ edu.degree }}</strong> — {{ edu.school }}</p>
+        <p class="edu-meta"><em>{{ edu.dates }}</em> · {{ edu.location }} · GPA {{ edu.gpa }}</p>
+      </div>
     </div>
     {% endfor %}
   </div>
@@ -72,11 +96,15 @@ title: William Wei-Chi Chen
   <div class="section-inner">
     <h2>Certifications</h2>
     <p class="section-tagline">Continuous learning and industry credentials.</p>
-    <ul class="cert-list">
-      {% for cert in site.data.certifications %}
-      <li><strong>{{ cert.name }}</strong> ({{ cert.date }})</li>
-      {% endfor %}
-    </ul>
+    {% for cert in site.data.certifications %}
+    <div class="education-item certification-item">
+      <div class="rail-icon rail-icon-{{ cert.icon_key }}">{{ cert.icon_label }}</div>
+      <div class="rail-card-body">
+        <p><strong>{{ cert.name }}</strong></p>
+        <p class="edu-meta">{{ cert.provider }} · <em>{{ cert.date }}</em></p>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </section>
 

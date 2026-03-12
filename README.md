@@ -27,3 +27,19 @@ Cursor with Plan and Agent mode (with Auto model selection) was used to assist s
 4. The cards look a bit awkward. Requesting the following changes
   - Let's make each section take over the entire window. On scroll, scroll to the next section
   - Please feel free to look for backgrounds and/or add content so each section doesn't feel too empty
+
+5. Let's make some more edits
+
+Work experience section
+- Add small company icons in the jobs button
+- Add the dates in the button
+- Combine the Amazon experiences, but split the experience in the actual card
+
+Education section
+- Add school icons per card, left side of card and full height of card's existing height
+
+Certifications section
+- Mirror education section card format per school
+- Add AWS/Java icon left of card, left side of card and full height of card's existing height as well
+
+The scroll prompt is also a bit close to the actual text - can we bottom align it?

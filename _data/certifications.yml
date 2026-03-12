@@ -1,5 +1,11 @@
 - name: AWS Certified Developer - Associate
+  provider: Amazon Web Services
   date: March 2022
+  icon_key: aws
+  icon_label: aws
 
 - name: Java SE7 - Oracle Certified Associate
+  provider: Oracle
   date: Sept 2017
+  icon_key: java
+  icon_label: java

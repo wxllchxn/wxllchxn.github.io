@@ -1,36 +1,45 @@
-- title: Software Engineer
-  company: Netflix
+- company: Netflix
+  icon_key: netflix
+  icon_label: N
   location: Remote
-  dates: June 2025 - Present
-  bullets:
-    - Implemented client-side security controls for the Netflix iOS Application, ensuring robust user and device authentication
-    - Migrated critical Netflix iOS codebases to OpenSSL 3, improving security posture and ensuring long-term maintainability
-    - Collaborated cross-functionally with platform and product teams to ensure secure launch of the Netflix Game Controller app
+  button_dates: June 2025 - Present
+  roles:
+    - title: Software Engineer
+      dates: June 2025 - Present
+      bullets:
+        - Implemented client-side security controls for the Netflix iOS Application, ensuring robust user and device authentication
+        - Migrated critical Netflix iOS codebases to OpenSSL 3, improving security posture and ensuring long-term maintainability
+        - Collaborated cross-functionally with platform and product teams to ensure secure launch of the Netflix Game Controller app
 
-- title: Software Development Engineer II / I
-  company: Amazon
+- company: Amazon
+  icon_key: amazon
+  icon_label: a
   location: Bellevue, WA
-  dates: Sept 2021 - May 2025
-  bullets:
-    - Designed, implemented and launched features using Swift and Obj-C for Amazon Flex, the tier-1 driver delivery app used by Amazon delivery drivers globally
-    - Overhauled package search mechanisms with patented label innovation, improving driver stop-level package search time by 16 minutes, saving 300 million dollars per year
-    - Championed app-wide architecture migration, reducing data model complexity and consolidating multi-platform business logic
-    - Worked with drivers in the field and responded to multiple high severity events, directly identifying and addressing crucial customer pain points
+  button_dates: May 2020 - May 2025
+  roles:
+    - title: Software Development Engineer II / I
+      dates: Sept 2021 - May 2025
+      bullets:
+        - Designed, implemented and launched features using Swift and Obj-C for Amazon Flex, the tier-1 driver delivery app used by Amazon delivery drivers globally
+        - Overhauled package search mechanisms with patented label innovation, improving driver stop-level package search time by 16 minutes, saving 300 million dollars per year
+        - Championed app-wide architecture migration, reducing data model complexity and consolidating multi-platform business logic
+        - Worked with drivers in the field and responded to multiple high severity events, directly identifying and addressing crucial customer pain points
+    - title: Software Development Engineer Intern
+      dates: May 2020 - July 2020
+      bullets:
+        - Implemented Package Scanning innovations on Amazon Flex, reducing on-road help requests by 15% with anticipated savings of 1.3 million dollars per year
+        - Developed multiple testable, modular components adhering to MVC paradigm
+        - Achieved 80% code coverage in newly implemented features
 
-- title: Software Development Engineer Intern
-  company: Amazon
-  location: Bellevue, WA
-  dates: May 2020 - July 2020
-  bullets:
-    - Implemented Package Scanning innovations on Amazon Flex, reducing on-road help requests by 15% with anticipated savings of 1.3 million dollars per year
-    - Developed multiple testable, modular components adhering to MVC paradigm
-    - Achieved 80% code coverage in newly implemented features
-
-- title: Artificial Intelligence Systems Engineering Intern
-  company: Taiwan AI Labs
+- company: Taiwan AI Labs
+  icon_key: tailabs
+  icon_label: T
   location: Taipei, Taiwan
-  dates: May 2019 - August 2019
-  bullets:
-    - Improved segmentation and pre-processing of medical CV models, which identify diseases from CT/MRI scans
-    - Built a React/NodeJS/MySQL/Orthanc web system with LDAP login for displaying model outputs of image masks
-    - Developed an automatic testing infrastructure for computer vision models using Typescript, Kubernetes, Docker and GitLab CI/CD
+  button_dates: May 2019 - August 2019
+  roles:
+    - title: Artificial Intelligence Systems Engineering Intern
+      dates: May 2019 - August 2019
+      bullets:
+        - Improved segmentation and pre-processing of medical CV models, which identify diseases from CT/MRI scans
+        - Built a React/NodeJS/MySQL/Orthanc web system with LDAP login for displaying model outputs of image masks
+        - Developed an automatic testing infrastructure for computer vision models using Typescript, Kubernetes, Docker and GitLab CI/CD
