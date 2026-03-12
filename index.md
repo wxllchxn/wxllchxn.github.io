@@ -22,7 +22,7 @@ title: William Wei-Chi Chen
           {% endfor %}
         </ul>
         {% if site.data.skills %}
-        <p class="intro-skills-label">Tech: {{ site.data.skills.general_purpose.items | join: ", " }}, {{ site.data.skills.frontend.items | join: ", " }}, {{ site.data.skills.devops.items | join: ", " }}</p>
+        <p class="intro-skills-label">Skills: {{ site.data.skills.general_purpose.items | join: ", " }}, {{ site.data.skills.frontend.items | join: ", " }}, {{ site.data.skills.devops.items | join: ", " }}</p>
         {% endif %}
       </div>
     </div>
