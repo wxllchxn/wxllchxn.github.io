@@ -1,6 +1,7 @@
 // --- Variables ---
 $font-display: "Plus Jakarta Sans", system-ui, sans-serif;
 $font-body: "DM Sans", system-ui, sans-serif;
+$nav-height: 4.5rem;
 $color-text: #1a1a2e;
 $color-text-muted: #4a4a68;
 $color-bg: #fafafa;
@@ -19,7 +20,7 @@ $transition: 0.25s ease;
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
-  scroll-padding-top: 4rem;
+  scroll-padding-top: $nav-height;
 }
 
 body.site-body {
@@ -54,12 +55,12 @@ body.site-body {
 
 .page-section {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - #{$nav-height});
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0;
   opacity: 0;
   transform: translateY(24px);
@@ -91,11 +92,12 @@ body.site-body {
 // --- Hero / Introduction section ---
 #introduction.page-section {
   .section-inner {
-    min-height: 100vh;
+    min-height: calc(100vh - #{$nav-height});
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-bottom: 1.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 0.5rem;
   }
 
   &::before {
@@ -206,7 +208,7 @@ body.site-body {
   .scroll-hint {
     position: static;
     margin-top: auto;
-    padding-top: 1.5rem;
+    padding-top: 0.75rem;
     align-self: center;
     font-size: 0.8rem;
     color: $color-text-muted;
@@ -306,12 +308,12 @@ body.site-body {
 }
 
 #work .section-inner {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 #work .work-tabs {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 
 #work .tab-buttons {
@@ -367,12 +369,12 @@ body.site-body {
 }
 
 .work-tab-icon-netflix {
-  background: #e50914;
+  background: linear-gradient(135deg, #b20710, #e50914);
   color: #fff;
 }
 
 .work-tab-icon-amazon {
-  background: #111827;
+  background: linear-gradient(135deg, #111827, #232f3e);
   color: #ffb11a;
 }
 
@@ -433,6 +435,21 @@ body.site-body {
   text-transform: uppercase;
 }
 
+.work-panel-badge-netflix {
+  background: rgba(229, 9, 20, 0.14);
+  color: #b20710;
+}
+
+.work-panel-badge-amazon {
+  background: rgba(255, 177, 26, 0.18);
+  color: #a16207;
+}
+
+.work-panel-badge-tailabs {
+  background: rgba(15, 118, 110, 0.14);
+  color: #0f766e;
+}
+
 #work .work-meta {
   margin: 0 0 1rem 0;
   color: $color-text-muted;
@@ -478,20 +495,31 @@ body.site-body {
 }
 
 // --- Education (card-style + background) ---
-#education.page-section {
+#education-certifications.page-section {
   &::before {
     content: "";
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, #fff 0%, #f8fafc 50%, #f0f9ff 100%),
-      radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05), transparent 45%);
+      linear-gradient(180deg, #fff 0%, #f8fafc 50%, #f3f4ff 100%),
+      radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.05), transparent 45%);
     z-index: 0;
   }
 }
 
+.split-section-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.split-section-column {
+  min-width: 0;
+}
+
 .education-item {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   background: $color-card-bg;
   border-radius: $radius;
   box-shadow: $shadow;
@@ -528,7 +556,8 @@ body.site-body {
 }
 
 .rail-icon-uw {
-  background: linear-gradient(180deg, #4b2e83, #7656b3);
+  background: linear-gradient(180deg, #4b2e83, #6b46c1);
+  color: #b7a57a;
 }
 
 .rail-icon-umich {
@@ -537,13 +566,13 @@ body.site-body {
 }
 
 .rail-icon-aws {
-  background: linear-gradient(180deg, #111827, #1f2937);
-  color: #ffb11a;
+  background: linear-gradient(180deg, #111827, #232f3e);
+  color: #ff9900;
   font-size: 1.1rem;
 }
 
 .rail-icon-java {
-  background: linear-gradient(180deg, #b45309, #ea580c);
+  background: linear-gradient(180deg, #b91c1c, #ea580c);
   color: #fff7ed;
   font-size: 1rem;
 }
@@ -551,19 +580,6 @@ body.site-body {
 .edu-meta {
   color: $color-text-muted;
   font-size: 0.9rem;
-}
-
-// --- Certifications ---
-#certifications.page-section {
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(180deg, #faf5ff 0%, #f5f3ff 40%, #fff 100%),
-      radial-gradient(circle at 10% 60%, rgba(139, 92, 246, 0.06), transparent 40%);
-    z-index: 0;
-  }
 }
 
 .certification-item .rail-card-body p:first-child {
@@ -633,6 +649,10 @@ body.site-body {
   .work-role-topline {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .split-section-grid {
+    grid-template-columns: 1fr;
   }
 
   .education-item {

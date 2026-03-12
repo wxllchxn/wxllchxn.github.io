@@ -43,7 +43,7 @@
 
   // Highlight nav link for section in view
   var nav = document.getElementById('section-nav');
-  var sectionIds = ['introduction', 'work', 'education', 'certifications', 'contact'];
+  var sectionIds = ['introduction', 'work', 'education-certifications', 'contact'];
   var firstLink = nav && nav.querySelector('a[href="#introduction"]');
   if (firstLink) firstLink.classList.add('nav-active');
   if (nav && typeof IntersectionObserver !== 'undefined') {

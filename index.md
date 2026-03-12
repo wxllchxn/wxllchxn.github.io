@@ -53,7 +53,7 @@ title: William Wei-Chi Chen
             <h3>{{ company.company }}</h3>
             <p class="work-meta">{{ company.location }} · <em>{{ company.button_dates }}</em></p>
           </div>
-          <span class="work-panel-badge">{{ company.icon_label }}</span>
+          <span class="work-panel-badge work-panel-badge-{{ company.icon_key }}">{{ company.icon_label }}</span>
         </div>
         <div class="work-role-list">
           {% for role in company.roles %}
@@ -76,35 +76,36 @@ title: William Wei-Chi Chen
   </div>
 </section>
 
-<section id="education" class="page-section">
+<section id="education-certifications" class="page-section">
   <div class="section-inner">
-    <h2>Education</h2>
-    <p class="section-tagline">Graduate and undergraduate studies in computer science.</p>
-    {% for edu in site.data.education %}
-    <div class="education-item">
-      <div class="rail-icon rail-icon-{{ edu.icon_key }}">{{ edu.icon_label }}</div>
-      <div class="rail-card-body">
-        <p><strong>{{ edu.degree }}</strong> — {{ edu.school }}</p>
-        <p class="edu-meta"><em>{{ edu.dates }}</em> · {{ edu.location }} · GPA {{ edu.gpa }}</p>
+    <div class="split-section-grid">
+      <div class="split-section-column">
+        <h2>Education</h2>
+        <p class="section-tagline">Graduate and undergraduate studies in computer science.</p>
+        {% for edu in site.data.education %}
+        <div class="education-item">
+          <div class="rail-icon rail-icon-{{ edu.icon_key }}">{{ edu.icon_label }}</div>
+          <div class="rail-card-body">
+            <p><strong>{{ edu.degree }}</strong> — {{ edu.school }}</p>
+            <p class="edu-meta"><em>{{ edu.dates }}</em> · {{ edu.location }} · GPA {{ edu.gpa }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="split-section-column">
+        <h2>Certifications</h2>
+        <p class="section-tagline">Continuous learning and industry credentials.</p>
+        {% for cert in site.data.certifications %}
+        <div class="education-item certification-item">
+          <div class="rail-icon rail-icon-{{ cert.icon_key }}">{{ cert.icon_label }}</div>
+          <div class="rail-card-body">
+            <p><strong>{{ cert.name }}</strong></p>
+            <p class="edu-meta">{{ cert.provider }} · <em>{{ cert.date }}</em></p>
+          </div>
+        </div>
+        {% endfor %}
       </div>
     </div>
-    {% endfor %}
-  </div>
-</section>
-
-<section id="certifications" class="page-section">
-  <div class="section-inner">
-    <h2>Certifications</h2>
-    <p class="section-tagline">Continuous learning and industry credentials.</p>
-    {% for cert in site.data.certifications %}
-    <div class="education-item certification-item">
-      <div class="rail-icon rail-icon-{{ cert.icon_key }}">{{ cert.icon_label }}</div>
-      <div class="rail-card-body">
-        <p><strong>{{ cert.name }}</strong></p>
-        <p class="edu-meta">{{ cert.provider }} · <em>{{ cert.date }}</em></p>
-      </div>
-    </div>
-    {% endfor %}
   </div>
 </section>
 

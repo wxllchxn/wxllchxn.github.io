@@ -43,3 +43,9 @@ Certifications section
 - Add AWS/Java icon left of card, left side of card and full height of card's existing height as well
 
 The scroll prompt is also a bit close to the actual text - can we bottom align it?
+
+6. Couple styling concerns
+- For Introduction, the scroll is no longer visible on initial viewport, and the content is shifted up.
+- The work experience content is a bit shifted down, and the amazon tab hits the bottom of the viewport.
+- For all icons, can we have them all use brand-specific/school-specific colors?
+- Let's combine the educationd and certifications tab, having the content side-by-side
