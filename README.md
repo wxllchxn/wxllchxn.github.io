@@ -6,9 +6,7 @@ Personal site built with Jekyll on GitHub Pages.
 
 # AI Usage documentation
 
-Cursor with Plan and Agent mode (with Auto model selection) was used to assist site creation in Part 1. Prompts below
-
-## Part 1
+Cursor with Plan and Agent mode (with Auto model selection) was used to assist site creation. Prompts below
 
 1. I am implementing a personal github page. Attached below is the provided instructions. [Project description attached]. Please plan for Part 1 (Jekyll setup for github pages) with content populated from my resume.
 
@@ -49,3 +47,10 @@ The scroll prompt is also a bit close to the actual text - can we bottom align i
 - The work experience content is a bit shifted down, and the amazon tab hits the bottom of the viewport.
 - For all icons, can we have them all use brand-specific/school-specific colors?
 - Let's combine the educationd and certifications tab, having the content side-by-side
+
+7. Help me fix the following bugs with my website
+- The introduction section is too upward shifted and too long; the scroll prompt appears below the initial viewport
+- The work experience tab is too down shifted; navigating to amazon results in the card overflowing beyond the page
+- The auto scroll stops at just before the actual color block
+- The Educatio and Certifications should be left and right side-by-side, not vertically sequential
+- Icons in card for Work experience are not company themed. Please match them to the colors in the button.

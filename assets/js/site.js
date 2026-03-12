@@ -46,6 +46,23 @@
   var sectionIds = ['introduction', 'work', 'education-certifications', 'contact'];
   var firstLink = nav && nav.querySelector('a[href="#introduction"]');
   if (firstLink) firstLink.classList.add('nav-active');
+  if (nav) {
+    nav.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        var targetId = link.getAttribute('href');
+        var target = targetId && document.querySelector(targetId);
+        if (!target) return;
+
+        event.preventDefault();
+        var navHeight = nav.offsetHeight || 0;
+        var targetTop = target.getBoundingClientRect().top + window.scrollY - navHeight;
+        window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+        if (window.history && window.history.pushState) {
+          window.history.pushState(null, '', targetId);
+        }
+      });
+    });
+  }
   if (nav && typeof IntersectionObserver !== 'undefined') {
     var observer = new IntersectionObserver(
       function (entries) {
