@@ -54,3 +54,9 @@ The scroll prompt is also a bit close to the actual text - can we bottom align i
 - The auto scroll stops at just before the actual color block
 - The Educatio and Certifications should be left and right side-by-side, not vertically sequential
 - Icons in card for Work experience are not company themed. Please match them to the colors in the button.
+
+8. New bugs
+- The autoscroll now scrolls slightly beyond the actual content. For example, for introduction, work experience is visible at the bottom, for work experience, the title is not visible, and contact is visible in the education autoscroll
+- The cards in work are now big and fixed size and don't hug the content anymore
+- Contact is no longer center of the section. All content should be center of section
+- The cards in education and certification are not the same size and not aesthetic.

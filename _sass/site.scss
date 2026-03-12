@@ -56,8 +56,8 @@ body.site-body {
 
 .page-section {
   position: relative;
-  min-height: calc(100vh - #{$nav-height});
-  min-height: calc(100dvh - #{$nav-height});
+  min-height: 100vh;
+  min-height: 100dvh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
@@ -313,13 +313,8 @@ body.site-body {
 }
 
 #work .section-inner {
-  min-height: calc(100vh - #{$nav-height});
-  min-height: calc(100dvh - #{$nav-height});
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: calc(#{$nav-height} + 0.85rem);
+  padding-bottom: 1.75rem;
 }
 
 #work .section-tagline {
@@ -327,19 +322,14 @@ body.site-body {
 }
 
 #work .work-tabs {
-  margin-top: 0.25rem;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 0.75rem;
-  flex: 1;
-  min-height: 0;
+  margin-top: 0.5rem;
 }
 
 #work .tab-buttons {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
 }
 
 #work .tab-buttons button {
@@ -423,9 +413,7 @@ body.site-body {
   border-radius: $radius;
   padding: 1.25rem 1.5rem;
   box-shadow: $shadow;
-  min-height: 0;
-  overflow: auto;
-  scrollbar-gutter: stable;
+  overflow: visible;
 }
 
 #work .tab-panel h3 {
@@ -535,28 +523,38 @@ body.site-body {
   min-height: calc(100dvh - #{$nav-height});
   display: flex;
   align-items: center;
+  padding-top: calc(#{$nav-height} + 1rem);
+  padding-bottom: 1.75rem;
 }
 
 .split-section-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1.5rem;
-  align-items: start;
+  gap: 1.25rem;
+  align-items: stretch;
   width: 100%;
 }
 
 .split-section-column {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.split-section-column .section-tagline {
+  margin: -0.35rem 0 0.35rem 0;
 }
 
 .education-item {
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   background: $color-card-bg;
   border-radius: $radius;
   box-shadow: $shadow;
   transition: box-shadow $transition, transform $transition;
   display: grid;
-  grid-template-columns: 88px 1fr;
+  grid-template-columns: 76px 1fr;
+  min-height: 112px;
   overflow: hidden;
 }
 
@@ -570,7 +568,11 @@ body.site-body {
 }
 
 .rail-card-body {
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
 }
 
 .rail-icon {
@@ -579,7 +581,7 @@ body.site-body {
   justify-content: center;
   min-height: 100%;
   font-family: $font-display;
-  font-size: 1.8rem;
+  font-size: 1.55rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   text-transform: uppercase;
@@ -599,13 +601,13 @@ body.site-body {
 .rail-icon-aws {
   background: linear-gradient(180deg, #111827, #232f3e);
   color: #ff9900;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .rail-icon-java {
   background: linear-gradient(180deg, #b91c1c, #ea580c);
   color: #fff7ed;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .edu-meta {
@@ -613,11 +615,11 @@ body.site-body {
   font-size: 0.9rem;
 }
 
-.certification-item .rail-card-body p:first-child {
+.rail-card-body p:first-child {
   margin-top: 0;
 }
 
-.certification-item .rail-card-body p:last-child {
+.rail-card-body p:last-child {
   margin-bottom: 0;
 }
 
@@ -632,6 +634,18 @@ body.site-body {
     animation: contact-bg 12s ease infinite;
     z-index: 0;
   }
+}
+
+#contact .section-inner {
+  min-height: calc(100vh - #{$nav-height});
+  min-height: calc(100dvh - #{$nav-height});
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 @keyframes contact-bg {
@@ -666,6 +680,10 @@ body.site-body {
   transition: transform $transition, box-shadow $transition;
 }
 
+#contact .contact-mailto {
+  align-self: center;
+}
+
 .contact-mailto:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -674,10 +692,6 @@ body.site-body {
 @media (max-width: 720px) {
   #work .tab-buttons button {
     width: 100%;
-  }
-
-  #work .tab-panel {
-    overflow: visible;
   }
 
   .tab-panel-header,
@@ -695,7 +709,8 @@ body.site-body {
   }
 
   .education-item {
-    grid-template-columns: 68px 1fr;
+    min-height: 0;
+    grid-template-columns: 64px 1fr;
   }
 
   .rail-icon {
