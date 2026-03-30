@@ -393,19 +393,11 @@ body.site-body {
   padding-top: calc(#{$nav-height} + 0.85rem);
   padding-bottom: 1.75rem;
   min-width: 0;
-  max-width: 100%;
-  width: 100%;
   box-sizing: border-box;
 }
 
 #work .section-tagline {
   margin-bottom: 1rem;
-}
-
-#work .section-inner > h2 {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
 }
 
 #work .work-tabs {
@@ -435,6 +427,7 @@ body.site-body {
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-bottom: 1rem;
+  justify-content: center;
 }
 
 #work .tab-buttons button {
@@ -629,7 +622,10 @@ body.site-body {
 }
 
 // --- Education (card-style + background) ---
+// Hash / nav: no extra scroll-margin so the section top (and ::before) meets the scrollport inset.
 #education-certifications.page-section {
+  scroll-margin-top: 0;
+
   &::before {
     content: "";
     position: absolute;
@@ -646,7 +642,8 @@ body.site-body {
   min-height: calc(100dvh - #{$nav-height});
   display: flex;
   align-items: center;
-  padding-top: calc(#{$nav-height} + 1rem);
+  // Match work: one nav clearance (scroll-padding handles hash targets separately).
+  padding-top: calc(#{$nav-height} + 0.5rem);
   padding-bottom: 1.75rem;
 }
 
@@ -751,6 +748,8 @@ body.site-body {
 
 // --- Contact (accent section) ---
 #contact.page-section {
+  scroll-margin-top: 0;
+
   &::before {
     content: "";
     position: absolute;
@@ -875,7 +874,7 @@ body.site-body {
   }
 
   #work.page-section {
-    scroll-snap-align: none;
+    scroll-snap-align: start;
     scroll-snap-stop: normal;
     overscroll-behavior-y: contain;
   }
@@ -986,6 +985,7 @@ body.site-body {
     width: auto;
     flex-shrink: 0;
     align-self: flex-start;
+    justify-content: flex-start;
   }
 
   #work .tab-buttons button {
@@ -1032,7 +1032,7 @@ body.site-body {
 
   .split-section-grid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 1.25rem;
   }
 
   #education-certifications .split-section-column > .section-tagline {
@@ -1040,7 +1040,7 @@ body.site-body {
   }
 
   .split-section-column:last-child {
-    padding-top: 0.65rem;
+    padding-top: 1rem;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 
@@ -1088,16 +1088,49 @@ body.site-body {
   }
 
   #education-certifications.page-section {
-    min-height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   #education-certifications .section-inner {
-    align-items: flex-start;
-    min-height: 0;
+    align-items: stretch;
+    align-self: stretch;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    min-height: calc(100vh - #{$nav-height});
+    min-height: calc(100dvh - #{$nav-height});
+    box-sizing: border-box;
     padding-top: calc(#{$nav-height} + 0.45rem);
-    padding-bottom: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-bottom: 1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  #contact.page-section {
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #contact .section-inner {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    min-height: calc(100vh - #{$nav-height});
+    min-height: calc(100dvh - #{$nav-height});
+    box-sizing: border-box;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 
