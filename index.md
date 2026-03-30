@@ -53,32 +53,32 @@ title: William Wei-Chi Chen
           {% endfor %}
         </div>
         <div class="work-tab-panels">
-      {% for company in site.data.experience %}
-      <div role="tabpanel" id="panel-{{ forloop.index0 }}" class="tab-panel" {% unless forloop.first %}hidden{% endunless %}>
-        <div class="tab-panel-header">
-          <div>
-            <h3>{{ company.company }}</h3>
-            <p class="work-meta">{{ company.location }} · <em>{{ company.button_dates }}</em></p>
-          </div>
-          <span class="work-panel-badge work-panel-badge-{{ company.icon_key }}">{{ company.icon_label }}</span>
-        </div>
-        <div class="work-role-list">
-          {% for role in company.roles %}
-          <article class="work-role-card">
-            <div class="work-role-topline">
-              <h4>{{ role.title }}</h4>
-              <span class="work-role-dates">{{ role.dates }}</span>
+          {% for company in site.data.experience %}
+          <div role="tabpanel" id="panel-{{ forloop.index0 }}" class="tab-panel" {% unless forloop.first %}hidden{% endunless %}>
+            <div class="tab-panel-header">
+              <div>
+                <h3>{{ company.company }}</h3>
+                <p class="work-meta">{{ company.location }} · <em>{{ company.button_dates }}</em></p>
+              </div>
+              <span class="work-panel-badge work-panel-badge-{{ company.icon_key }}">{{ company.icon_label }}</span>
             </div>
-            <ul>
-              {% for bullet in role.bullets %}
-              <li>{{ bullet }}</li>
+            <div class="work-role-list">
+              {% for role in company.roles %}
+              <article class="work-role-card">
+                <div class="work-role-topline">
+                  <h4>{{ role.title }}</h4>
+                  <span class="work-role-dates">{{ role.dates }}</span>
+                </div>
+                <ul>
+                  {% for bullet in role.bullets %}
+                  <li>{{ bullet }}</li>
+                  {% endfor %}
+                </ul>
+              </article>
               {% endfor %}
-            </ul>
-          </article>
+            </div>
+          </div>
           {% endfor %}
-        </div>
-      </div>
-      {% endfor %}
         </div>
       </div>
     </div>

@@ -23,20 +23,34 @@
     sections.forEach(function (el) { el.classList.add('revealed'); });
   }
 
-  // Work experience tabs
-  var tabList = document.querySelector('.tab-buttons[role="tablist"]');
-  if (tabList) {
+  // Work experience tabs (panels must live under #work — not only inside .work-tab-panels, for robustness)
+  var workRoot = document.getElementById('work');
+  var tabList = workRoot && workRoot.querySelector('.tab-buttons[role="tablist"]');
+  if (tabList && workRoot) {
     var tabs = tabList.querySelectorAll('[role="tab"]');
-    var panels = document.querySelectorAll('#work .work-tab-panels .tab-panel');
+    var panels = workRoot.querySelectorAll('.tab-panel[role="tabpanel"]');
 
     tabs.forEach(function (tab, index) {
-      tab.addEventListener('click', function () {
+      // Avoid focus-driven scroll (scroll-snap / hash) when clicking tabs
+      tab.addEventListener('mousedown', function (e) {
+        if (e.button === 0) e.preventDefault();
+      });
+      tab.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
         tabs.forEach(function (t, i) {
           t.setAttribute('aria-selected', i === index ? 'true' : 'false');
         });
         panels.forEach(function (panel, i) {
           panel.hidden = i !== index;
         });
+        if (typeof tab.focus === 'function') {
+          try {
+            tab.focus({ preventScroll: true });
+          } catch (err) {
+            tab.focus();
+          }
+        }
       });
     });
   }
@@ -133,7 +147,7 @@
         .catch(function () {
           showContactToast('Something went wrong. Please try again.', false);
         })
-        .finally(function () {
+        .then(function () {
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.textContent = defaultLabel;

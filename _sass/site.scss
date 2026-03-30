@@ -832,6 +832,15 @@ body.site-body {
 }
 
 @media (max-width: 720px) {
+  html {
+    scroll-padding-top: #{$nav-height};
+  }
+
+  #work.page-section {
+    scroll-snap-stop: normal;
+    overscroll-behavior-y: contain;
+  }
+
   .page-section {
     overflow-x: clip;
   }
@@ -897,34 +906,6 @@ body.site-body {
     max-width: none;
   }
 
-  #introduction.page-section .intro-links a {
-    background: transparent;
-    color: $color-accent;
-    padding: 0.2rem 0;
-    border-radius: 0;
-    text-decoration: underline;
-    font-size: 0.88rem;
-    font-weight: 600;
-  }
-
-  #introduction.page-section .intro-links a:hover {
-    color: $color-accent-hover;
-    transform: none;
-  }
-
-  #introduction.page-section .intro-links a:not(:last-child)::after {
-    content: " | ";
-    margin: 0;
-    color: $color-text-muted;
-    font-weight: 500;
-    text-decoration: none;
-    display: inline;
-  }
-
-  #introduction.page-section .intro-links a:first-of-type {
-    background: transparent;
-  }
-
   #work .section-inner {
     display: flex;
     flex-direction: column;
@@ -940,7 +921,7 @@ body.site-body {
 
   #work .work-tabs-card {
     flex: 1;
-    min-height: 0;
+    min-height: 52dvh;
     flex-direction: row;
     align-items: stretch;
     gap: 0.65rem;
