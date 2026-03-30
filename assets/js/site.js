@@ -69,4 +69,67 @@
       if (el) observer.observe(el);
     });
   }
+
+  // Web3Forms: AJAX submit (no redirect)
+  var contactForm = document.getElementById('contact-form');
+  var contactResult = document.getElementById('contact-form-result');
+  if (contactForm && contactResult) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var submitBtn = contactForm.querySelector('.contact-form-submit');
+      var defaultLabel = submitBtn ? submitBtn.textContent : '';
+
+      contactResult.textContent = '';
+      contactResult.classList.remove('contact-form-result--success', 'contact-form-result--error');
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+      }
+
+      var formData = new FormData(contactForm);
+      var payload = Object.fromEntries(formData.entries());
+      var jsonBody = JSON.stringify(payload);
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: jsonBody
+      })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, status: response.status, data: data };
+          });
+        })
+        .then(function (result) {
+          var data = result.data || {};
+          var ok =
+            typeof data.success === 'boolean' ? data.success : result.ok;
+          var msg =
+            data.message ||
+            (ok ? 'Message sent.' : 'Something went wrong.');
+          contactResult.textContent = msg;
+          contactResult.classList.add(
+            ok ? 'contact-form-result--success' : 'contact-form-result--error'
+          );
+          if (ok) contactForm.reset();
+          contactResult.focus();
+        })
+        .catch(function () {
+          contactResult.textContent = 'Something went wrong. Please try again.';
+          contactResult.classList.add('contact-form-result--error');
+          contactResult.focus();
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = defaultLabel;
+          }
+        });
+    });
+  }
 })();

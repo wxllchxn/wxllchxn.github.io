@@ -114,7 +114,7 @@ title: William Wei-Chi Chen
     <h2>Contact</h2>
     <p class="section-tagline">Let's connect — open to opportunities and conversations.</p>
     <p class="contact-lead">Send a message and I'll get back to you.</p>
-    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+    <form id="contact-form" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="{{ site.web3forms_access_key }}">
       <input type="checkbox" name="botcheck" class="contact-form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="contact-form-field">
@@ -130,6 +130,7 @@ title: William Wei-Chi Chen
         <textarea id="contact-message" name="message" required rows="4"></textarea>
       </div>
       <button type="submit" class="contact-form-submit">Send message</button>
+      <p id="contact-form-result" class="contact-form-result" role="status" aria-live="polite" tabindex="-1"></p>
     </form>
   </div>
 </section>

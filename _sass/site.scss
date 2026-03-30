@@ -61,7 +61,6 @@ body.site-body {
   min-height: 100dvh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  scroll-margin-top: $nav-scroll-pad;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -306,6 +305,25 @@ body.site-body {
   border-radius: 1px;
 }
 
+.nav-text--wide {
+  display: none;
+}
+
+.nav-text--narrow {
+  display: inline;
+}
+
+@media (min-width: 640px) {
+  .nav-text--wide {
+    display: inline;
+  }
+
+  .nav-text--narrow {
+    display: none;
+  }
+}
+
+
 // --- Page sections container ---
 .page-sections {
   width: 100%;
@@ -327,6 +345,8 @@ body.site-body {
 #work .section-inner {
   padding-top: calc(#{$nav-height} + 0.85rem);
   padding-bottom: 1.75rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 #work .section-tagline {
@@ -335,6 +355,8 @@ body.site-body {
 
 #work .work-tabs {
   margin-top: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 #work .tab-buttons {
@@ -412,6 +434,8 @@ body.site-body {
   display: flex;
   flex-direction: column;
   line-height: 1.15;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .work-tab-company {
@@ -429,7 +453,8 @@ body.site-body {
   border-radius: $radius;
   padding: 1.25rem 1.5rem;
   box-shadow: $shadow;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: visible;
   min-width: 0;
 }
 
@@ -446,6 +471,7 @@ body.site-body {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+  min-width: 0;
 }
 
 .work-panel-badge {
@@ -488,11 +514,15 @@ body.site-body {
   margin: 0;
   padding-left: 1.25rem;
   line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .work-role-list {
   display: grid;
   gap: 0.75rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .work-role-card {
@@ -500,6 +530,9 @@ body.site-body {
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(99, 102, 241, 0.08);
   border-radius: 14px;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .work-role-topline {
@@ -590,6 +623,9 @@ body.site-body {
   flex-direction: column;
   justify-content: center;
   gap: 0.15rem;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .rail-icon {
@@ -760,7 +796,45 @@ body.site-body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
+.contact-form-result {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: $radius-sm;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+}
+
+.contact-form-result:empty {
+  display: none;
+}
+
+.contact-form-result--success {
+  background: rgba(255, 255, 255, 0.95);
+  color: #15803d;
+}
+
+.contact-form-result--error {
+  background: rgba(254, 226, 226, 0.95);
+  color: #b91c1c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form-submit:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 720px) {
+  .page-section {
+    overflow-x: clip;
+  }
+
+  #work .tab-panel {
+    overflow-x: hidden;
+  }
+
   .tab-panel-header,
   .work-role-topline {
     flex-direction: column;
