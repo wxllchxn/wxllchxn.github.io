@@ -44,6 +44,7 @@ html {
   scroll-snap-type: y mandatory;
   scroll-padding-top: $nav-scroll-pad;
   scrollbar-gutter: stable;
+  overflow-y: scroll;
 }
 
 body.site-body {
@@ -374,9 +375,9 @@ body.site-body {
 }
 
 // --- Work section: full-viewport + background ---
+// Hash / in-page nav: rely on html scroll-padding-top only so <section id="work">
+// top aligns with the viewport inset (no extra scroll-margin stacking).
 #work.page-section {
-  scroll-margin-top: $nav-scroll-pad;
-
   &::before {
     content: "";
     position: absolute;
@@ -393,10 +394,18 @@ body.site-body {
   padding-bottom: 1.75rem;
   min-width: 0;
   max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #work .section-tagline {
   margin-bottom: 1rem;
+}
+
+#work .section-inner > h2 {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 #work .work-tabs {
@@ -529,12 +538,13 @@ body.site-body {
 }
 
 .tab-panel-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
-  justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
   min-width: 0;
+  width: 100%;
 }
 
 .work-panel-badge {
@@ -1011,7 +1021,10 @@ body.site-body {
     margin-bottom: 0;
   }
 
-  .tab-panel-header,
+  .tab-panel-header {
+    grid-template-columns: 1fr;
+  }
+
   .work-role-topline {
     flex-direction: column;
     align-items: flex-start;
@@ -1019,60 +1032,72 @@ body.site-body {
 
   .split-section-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 0.75rem;
   }
 
-  .split-section-column .section-tagline {
-    margin: -0.35rem 0 0.35rem 0;
-    max-width: none;
+  #education-certifications .split-section-column > .section-tagline {
+    display: none;
   }
 
   .split-section-column:last-child {
-    padding-top: 1.25rem;
+    padding-top: 0.65rem;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 
   .split-section-column {
-    gap: 0.9rem;
+    gap: 0.45rem;
+  }
+
+  #education-certifications .split-section-column h2 {
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.4rem;
   }
 
   .education-item {
-    grid-template-columns: 64px 1fr;
+    grid-template-columns: 44px 1fr;
     min-height: 0;
-    border-radius: $radius-sm;
+    border-radius: 8px;
   }
 
   .rail-card-body {
-    padding: 0.85rem 1rem;
+    padding: 0.45rem 0.55rem;
   }
 
   .rail-card-body p {
-    font-size: $fs-body;
-    line-height: 1.5;
-    margin: 0.2rem 0;
+    font-size: $fs-small;
+    line-height: 1.35;
+    margin: 0.1rem 0;
   }
 
   .edu-meta {
-    font-size: $fs-meta;
-    line-height: 1.45;
+    font-size: $fs-caption;
+    line-height: 1.3;
   }
 
   .rail-icon {
-    font-size: $fs-rail-icon;
+    font-size: 0.95rem;
   }
 
   .rail-icon-aws,
   .rail-icon-java {
-    font-size: $fs-rail-cert;
+    font-size: $fs-caption;
   }
 
   .work-role-dates {
     white-space: normal;
   }
 
+  #education-certifications.page-section {
+    min-height: auto;
+  }
+
   #education-certifications .section-inner {
     align-items: flex-start;
-    padding-top: calc(#{$nav-height} + 0.65rem);
+    min-height: 0;
+    padding-top: calc(#{$nav-height} + 0.45rem);
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
@@ -1083,7 +1108,12 @@ body.site-body {
   }
 
   .education-item {
-    grid-template-columns: 56px 1fr;
+    grid-template-columns: 40px 1fr;
+  }
+
+  #education-certifications .section-inner {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
   }
 }
 
