@@ -32,9 +32,14 @@
 
     tabs.forEach(function (tab, index) {
       // Avoid focus-driven scroll (scroll-snap / hash) when clicking tabs
-      tab.addEventListener('mousedown', function (e) {
-        if (e.button === 0) e.preventDefault();
-      });
+      function preventDefaultPrimary(e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.button != null && e.button !== 0) return;
+        e.preventDefault();
+      }
+      tab.addEventListener('mousedown', preventDefaultPrimary);
+      tab.addEventListener('touchstart', preventDefaultPrimary, { passive: false });
+      tab.addEventListener('pointerdown', preventDefaultPrimary);
       tab.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
