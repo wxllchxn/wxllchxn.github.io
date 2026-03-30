@@ -15,7 +15,8 @@ $shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 $shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.08);
 $max-width: 960px;
 $transition: 0.25s ease;
-$nav-scroll-pad: calc(#{$nav-height} + 0.35rem);
+// Scroll alignment for #sections: inset equals sticky nav height only.
+$nav-scroll-pad: #{$nav-height};
 
 // Type scale (single source for body, headings, UI)
 $fs-body: 1rem;
@@ -41,9 +42,9 @@ $fs-toast: 0.9375rem;
 // --- Base ---
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
   scroll-padding-top: $nav-scroll-pad;
   scrollbar-gutter: stable;
+  overflow-x: clip;
   overflow-y: scroll;
 }
 
@@ -54,6 +55,7 @@ body.site-body {
   line-height: 1.6;
   color: $color-text;
   background: $color-bg;
+  overflow-x: clip;
 }
 
 // --- Section inner (max-width content) ---
@@ -73,21 +75,21 @@ body.site-body {
   max-width: 42ch;
 }
 
-// --- Page sections: full viewport + scroll snap ---
+// --- Page sections: full viewport bands ---
 .page-sections {
   width: 100%;
+  overflow-x: clip;
 }
 
 .page-section {
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 0;
+  overflow-x: clip;
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -369,15 +371,10 @@ body.site-body {
 }
 
 
-// --- Page sections container ---
-.page-sections {
-  width: 100%;
-}
-
 // --- Work section: full-viewport + background ---
-// Hash / in-page nav: rely on html scroll-padding-top only so <section id="work">
-// top aligns with the viewport inset (no extra scroll-margin stacking).
 #work.page-section {
+  overflow-x: clip;
+
   &::before {
     content: "";
     position: absolute;
@@ -390,7 +387,7 @@ body.site-body {
 }
 
 #work .section-inner {
-  padding-top: calc(#{$nav-height} + 0.85rem);
+  padding-top: 1rem;
   padding-bottom: 1.75rem;
   min-width: 0;
   box-sizing: border-box;
@@ -447,7 +444,7 @@ body.site-body {
   text-align: left;
   flex: 0 1 auto;
   width: auto;
-  max-width: min(100%, 17rem);
+  max-width: 100%;
   min-width: 0;
   touch-action: manipulation;
 }
@@ -521,6 +518,7 @@ body.site-body {
   overflow-x: hidden;
   overflow-y: visible;
   min-width: 0;
+  box-sizing: border-box;
 }
 
 #work .tab-panel h3 {
@@ -574,31 +572,66 @@ body.site-body {
   margin: 0 0 1rem 0;
   color: $color-text-muted;
   font-size: $fs-meta;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 #work .tab-panel ul {
   margin: 0;
   padding-left: 1.25rem;
   line-height: 1.6;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+#work .tab-panel li {
+  overflow-wrap: anywhere;
   word-break: break-word;
 }
 
 .work-role-list {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   min-width: 0;
   max-width: 100%;
 }
 
 .work-role-card {
-  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(99, 102, 241, 0.08);
   border-radius: 14px;
   min-width: 0;
-  overflow-wrap: break-word;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.work-role-card .work-role-topline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.work-role-card > ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  width: 100%;
 }
 
 .work-role-topline {
@@ -618,14 +651,11 @@ body.site-body {
 .work-role-dates {
   color: $color-text-muted;
   font-size: $fs-small;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 // --- Education (card-style + background) ---
-// Hash / nav: no extra scroll-margin so the section top (and ::before) meets the scrollport inset.
 #education-certifications.page-section {
-  scroll-margin-top: 0;
-
   &::before {
     content: "";
     position: absolute;
@@ -642,8 +672,7 @@ body.site-body {
   min-height: calc(100dvh - #{$nav-height});
   display: flex;
   align-items: center;
-  // Match work: one nav clearance (scroll-padding handles hash targets separately).
-  padding-top: calc(#{$nav-height} + 0.5rem);
+  padding-top: 1rem;
   padding-bottom: 1.75rem;
 }
 
@@ -748,8 +777,6 @@ body.site-body {
 
 // --- Contact (accent section) ---
 #contact.page-section {
-  scroll-margin-top: 0;
-
   &::before {
     content: "";
     position: absolute;
@@ -869,13 +896,7 @@ body.site-body {
 }
 
 @media (max-width: 720px) {
-  html {
-    scroll-padding-top: $nav-scroll-pad;
-  }
-
   #work.page-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
     overscroll-behavior-y: contain;
   }
 
@@ -948,7 +969,7 @@ body.site-body {
     display: flex;
     flex-direction: column;
     min-height: 0;
-    padding-top: calc(#{$nav-height} + 0.4rem);
+    padding-top: 1rem;
   }
 
   #work .work-tabs {
@@ -1023,11 +1044,6 @@ body.site-body {
 
   .tab-panel-header {
     grid-template-columns: 1fr;
-  }
-
-  .work-role-topline {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .split-section-grid {
@@ -1107,7 +1123,7 @@ body.site-body {
     min-height: calc(100vh - #{$nav-height});
     min-height: calc(100dvh - #{$nav-height});
     box-sizing: border-box;
-    padding-top: calc(#{$nav-height} + 0.45rem);
+    padding-top: 1rem;
     padding-bottom: 1.25rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
@@ -1195,7 +1211,6 @@ body.site-body {
   background: $color-text;
   color: rgba(255, 255, 255, 0.8);
   font-size: $fs-meta;
-  scroll-snap-align: none;
 }
 
 .site-footer .footer-inner {

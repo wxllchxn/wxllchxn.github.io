@@ -1,6 +1,37 @@
 (function () {
   'use strict';
 
+  // Top nav: scroll so each <section id="…"> sits at the top of the view (uses html scroll-padding-top).
+  var sectionNav = document.getElementById('section-nav');
+  if (sectionNav) {
+    sectionNav.addEventListener('click', function (e) {
+      var link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!link || !sectionNav.contains(link)) return;
+      var href = link.getAttribute('href');
+      if (!href || href.length < 2) return;
+      var id = href.slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      if (history.replaceState) {
+        try {
+          history.replaceState(null, '', href);
+        } catch (err) {
+          window.location.hash = href;
+        }
+      } else {
+        window.location.hash = href;
+      }
+      var instant =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target.scrollIntoView({
+        block: 'start',
+        behavior: instant ? 'auto' : 'smooth'
+      });
+    });
+  }
+
   // Hero / intro: reveal immediately (no scroll-reveal delay)
   var intro = document.getElementById('introduction');
   if (intro) intro.classList.add('revealed');
@@ -31,7 +62,7 @@
     var panels = workRoot.querySelectorAll('.tab-panel[role="tabpanel"]');
 
     tabs.forEach(function (tab, index) {
-      // Avoid focus-driven scroll (scroll-snap / hash) when clicking tabs
+      // Avoid focus-driven scroll when clicking tabs
       function preventDefaultPrimary(e) {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         if (e.button != null && e.button !== 0) return;
