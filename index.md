@@ -12,9 +12,9 @@ title: William Wei-Chi Chen
         <p class="intro-subtitle">Software Engineer · Bellevue, WA</p>
         <p class="intro-tagline">Building reliable systems and great product experiences.</p>
         <div class="intro-links">
-          <a href="{{ site.resume_url }}">Resume (PDF)</a>
-          <a href="{{ site.linkedin_url }}">LinkedIn</a>
-          <a href="{{ site.github_url }}">GitHub</a>
+          <a href="{{ site.resume_url }}" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+          <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="{{ site.github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
         <ul class="intro-bullets">
           {% for bullet in site.data.intro.bullets %}
@@ -113,7 +113,23 @@ title: William Wei-Chi Chen
   <div class="section-inner">
     <h2>Contact</h2>
     <p class="section-tagline">Let's connect — open to opportunities and conversations.</p>
-    <p>{{ site.email }} · {{ site.phone }}</p>
-    <a href="mailto:{{ site.email }}" class="contact-mailto">Email me</a>
+    <p class="contact-lead">Send a message and I'll get back to you.</p>
+    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="{{ site.web3forms_access_key }}">
+      <input type="checkbox" name="botcheck" class="contact-form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="contact-form-field">
+        <label for="contact-name">Name</label>
+        <input id="contact-name" type="text" name="name" required autocomplete="name" />
+      </div>
+      <div class="contact-form-field">
+        <label for="contact-email">Email</label>
+        <input id="contact-email" type="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="contact-form-field">
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" name="message" required rows="4"></textarea>
+      </div>
+      <button type="submit" class="contact-form-submit">Send message</button>
+    </form>
   </div>
 </section>
