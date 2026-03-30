@@ -24,10 +24,10 @@
   }
 
   // Work experience tabs
-  var tabList = document.querySelector('.work-tabs[role="tablist"]');
+  var tabList = document.querySelector('.tab-buttons[role="tablist"]');
   if (tabList) {
-    var tabs = tabList.querySelectorAll('.tab-buttons [role="tab"]');
-    var panels = tabList.querySelectorAll('.tab-panel');
+    var tabs = tabList.querySelectorAll('[role="tab"]');
+    var panels = document.querySelectorAll('#work .work-tab-panels .tab-panel');
 
     tabs.forEach(function (tab, index) {
       tab.addEventListener('click', function () {
@@ -70,18 +70,33 @@
     });
   }
 
+  function showContactToast(message, isSuccess) {
+    var toast = document.getElementById('contact-form-toast');
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.classList.remove('contact-toast--success', 'contact-toast--error');
+    toast.classList.add(isSuccess ? 'contact-toast--success' : 'contact-toast--error');
+    toast.removeAttribute('hidden');
+    toast.setAttribute('aria-hidden', 'false');
+
+    window.clearTimeout(showContactToast._timer);
+    showContactToast._timer = window.setTimeout(function () {
+      toast.setAttribute('hidden', '');
+      toast.setAttribute('aria-hidden', 'true');
+      toast.textContent = '';
+      toast.classList.remove('contact-toast--success', 'contact-toast--error');
+    }, 6000);
+  }
+
   // Web3Forms: AJAX submit (no redirect)
   var contactForm = document.getElementById('contact-form');
-  var contactResult = document.getElementById('contact-form-result');
-  if (contactForm && contactResult) {
+  if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
       var submitBtn = contactForm.querySelector('.contact-form-submit');
       var defaultLabel = submitBtn ? submitBtn.textContent : '';
-
-      contactResult.textContent = '';
-      contactResult.classList.remove('contact-form-result--success', 'contact-form-result--error');
 
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -112,17 +127,11 @@
           var msg =
             data.message ||
             (ok ? 'Message sent.' : 'Something went wrong.');
-          contactResult.textContent = msg;
-          contactResult.classList.add(
-            ok ? 'contact-form-result--success' : 'contact-form-result--error'
-          );
+          showContactToast(msg, ok);
           if (ok) contactForm.reset();
-          contactResult.focus();
         })
         .catch(function () {
-          contactResult.textContent = 'Something went wrong. Please try again.';
-          contactResult.classList.add('contact-form-result--error');
-          contactResult.focus();
+          showContactToast('Something went wrong. Please try again.', false);
         })
         .finally(function () {
           if (submitBtn) {

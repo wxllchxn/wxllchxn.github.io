@@ -6,24 +6,29 @@ title: William Wei-Chi Chen
 <section id="introduction" class="page-section">
   <div class="section-inner">
     <div class="intro-content">
-      <img src="{{ site.baseurl }}/assets/images/profile.jpg" alt="William Wei-Chi Chen" class="profile-photo" />
-      <div class="intro-text">
-        <h1>{{ site.author }}</h1>
-        <p class="intro-subtitle">Software Engineer · Bellevue, WA</p>
-        <p class="intro-tagline">Building reliable systems and great product experiences.</p>
-        <div class="intro-links">
-          <a href="{{ site.resume_url }}" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+      <img src="{{ site.baseurl }}/assets/images/profile.png" alt="William Wei-Chi Chen" class="profile-photo" />
+      <div class="intro-stack">
+        <h1 class="intro-name">{{ site.author }}</h1>
+        <div class="intro-meta">
+          <p class="intro-role">Software Engineer</p>
+          <p class="intro-location">Bellevue, WA</p>
+        </div>
+        <div class="intro-below">
+          <p class="intro-tagline">Building reliable systems and great product experiences.</p>
+          <div class="intro-links">
+          <a href="{{ site.resume_url }}" target="_blank" rel="noopener noreferrer">Resume</a>
           <a href="{{ site.linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="{{ site.github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-        <ul class="intro-bullets">
+          </div>
+          <ul class="intro-bullets">
           {% for bullet in site.data.intro.bullets %}
           <li>{{ bullet }}</li>
           {% endfor %}
-        </ul>
-        {% if site.data.skills %}
-        <p class="intro-skills-label">Skills: {{ site.data.skills.general_purpose.items | join: ", " }}, {{ site.data.skills.frontend.items | join: ", " }}, {{ site.data.skills.devops.items | join: ", " }}</p>
-        {% endif %}
+          </ul>
+          {% if site.data.skills %}
+          <p class="intro-skills-label">Skills: {{ site.data.skills.general_purpose.items | join: ", " }}, {{ site.data.skills.frontend.items | join: ", " }}, {{ site.data.skills.devops.items | join: ", " }}</p>
+          {% endif %}
+        </div>
       </div>
     </div>
     <div class="scroll-hint" aria-hidden="true">Scroll</div>
@@ -34,18 +39,20 @@ title: William Wei-Chi Chen
   <div class="section-inner">
     <h2>Work Experience</h2>
     <p class="section-tagline">Building products at scale — from mobile to platform.</p>
-    <div class="work-tabs" role="tablist" aria-label="Work experience">
-      <div class="tab-buttons">
-        {% for company in site.data.experience %}
-        <button type="button" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="panel-{{ forloop.index0 }}" id="tab-{{ forloop.index0 }}" data-tab-index="{{ forloop.index0 }}">
-          <span class="work-tab-icon work-tab-icon-{{ company.icon_key }}">{{ company.icon_label }}</span>
-          <span class="work-tab-copy">
-            <span class="work-tab-company">{{ company.company }}</span>
-            <span class="work-tab-dates">{{ company.button_dates }}</span>
-          </span>
-        </button>
-        {% endfor %}
-      </div>
+    <div class="work-tabs" aria-label="Work experience">
+      <div class="work-tabs-card">
+        <div class="tab-buttons" role="tablist">
+          {% for company in site.data.experience %}
+          <button type="button" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="panel-{{ forloop.index0 }}" id="tab-{{ forloop.index0 }}" data-tab-index="{{ forloop.index0 }}">
+            <span class="work-tab-icon work-tab-icon-{{ company.icon_key }}">{{ company.icon_label }}</span>
+            <span class="work-tab-copy">
+              <span class="work-tab-company">{{ company.company }}</span>
+              <span class="work-tab-dates">{{ company.button_dates }}</span>
+            </span>
+          </button>
+          {% endfor %}
+        </div>
+        <div class="work-tab-panels">
       {% for company in site.data.experience %}
       <div role="tabpanel" id="panel-{{ forloop.index0 }}" class="tab-panel" {% unless forloop.first %}hidden{% endunless %}>
         <div class="tab-panel-header">
@@ -72,6 +79,8 @@ title: William Wei-Chi Chen
         </div>
       </div>
       {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -130,7 +139,6 @@ title: William Wei-Chi Chen
         <textarea id="contact-message" name="message" required rows="4"></textarea>
       </div>
       <button type="submit" class="contact-form-submit">Send message</button>
-      <p id="contact-form-result" class="contact-form-result" role="status" aria-live="polite" tabindex="-1"></p>
     </form>
   </div>
 </section>
