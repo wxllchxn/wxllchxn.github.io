@@ -42,7 +42,8 @@ $fs-toast: 0.9375rem;
 // --- Base ---
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: $nav-scroll-pad;
+  // JS sets --nav-scroll-pad to real #section-nav height so scroll-snap matches sticky nav.
+  scroll-padding-top: var(--nav-scroll-pad, #{$nav-scroll-pad});
   scrollbar-gutter: stable;
   overflow-x: clip;
   overflow-y: scroll;
@@ -893,6 +894,30 @@ body.site-body {
 .contact-form-submit:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 721px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
+  .page-section {
+    scroll-snap-align: start;
+    // normal: fast scroll can pass a section; avoids a second “snap back” after inertia settles.
+    scroll-snap-stop: normal;
+  }
+
+  .site-footer {
+    scroll-snap-align: none;
+  }
+
+  #work .section-inner {
+    padding-top: calc(#{$nav-height} + 0.85rem);
+  }
+
+  #education-certifications .section-inner {
+    padding-top: calc(#{$nav-height} + 0.5rem);
+  }
 }
 
 @media (max-width: 720px) {

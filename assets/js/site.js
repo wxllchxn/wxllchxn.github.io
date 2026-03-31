@@ -1,7 +1,101 @@
 (function () {
   'use strict';
 
-  // Top nav: scroll so each <section id="…"> sits at the top of the view (uses html scroll-padding-top).
+  var sectionIds = [
+    'introduction',
+    'work',
+    'education-certifications',
+    'contact'
+  ];
+
+  function prefersReducedMotion() {
+    return (
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
+  function scrollSectionToTop(el, behavior) {
+    var nav = document.getElementById('section-nav');
+    var navH = nav ? nav.getBoundingClientRect().height : 0;
+    var y = el.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({ top: Math.max(0, y), behavior: behavior });
+  }
+
+  function syncNavScrollPad() {
+    var nav = document.getElementById('section-nav');
+    if (!nav) return;
+    var h = Math.ceil(nav.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--nav-scroll-pad', h + 'px');
+  }
+
+  var navForResize = document.getElementById('section-nav');
+  syncNavScrollPad();
+  window.addEventListener('resize', syncNavScrollPad);
+  if (typeof ResizeObserver !== 'undefined' && navForResize) {
+    new ResizeObserver(syncNavScrollPad).observe(navForResize);
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncNavScrollPad).catch(function () {});
+  }
+
+  function sectionDocumentTop(el) {
+    return el.getBoundingClientRect().top + window.scrollY;
+  }
+
+  /** Section whose top is at or just above the snap line (below nav). */
+  function getCurrentSectionIndex() {
+    var nav = document.getElementById('section-nav');
+    var navH = nav ? nav.getBoundingClientRect().height : 0;
+    var probe = window.scrollY + navH + 4;
+    var idx = 0;
+    for (var i = 0; i < sectionIds.length; i++) {
+      var el = document.getElementById(sectionIds[i]);
+      if (!el) continue;
+      if (sectionDocumentTop(el) <= probe) idx = i;
+    }
+    return idx;
+  }
+
+  function focusIsEditable(el) {
+    if (!el || el === document.body) return false;
+    var tag = el.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+    return el.isContentEditable === true;
+  }
+
+  function isDesktopSectionNav() {
+    return (
+      window.matchMedia &&
+      window.matchMedia('(min-width: 721px)').matches
+    );
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!isDesktopSectionNav()) return;
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    if (focusIsEditable(document.activeElement)) return;
+    var idx = getCurrentSectionIndex();
+    var next = e.key === 'ArrowDown' ? idx + 1 : idx - 1;
+    if (next < 0 || next >= sectionIds.length) return;
+    var target = document.getElementById(sectionIds[next]);
+    if (!target) return;
+    e.preventDefault();
+    var href = '#' + sectionIds[next];
+    if (history.replaceState) {
+      try {
+        history.replaceState(null, '', href);
+      } catch (err) {
+        window.location.hash = href;
+      }
+    } else {
+      window.location.hash = href;
+    }
+    var behavior = prefersReducedMotion() ? 'auto' : 'smooth';
+    scrollSectionToTop(target, behavior);
+  });
+
+  // Top nav: align section top to just below the sticky nav (measured; avoids scrollIntoView / padding mismatch).
   var sectionNav = document.getElementById('section-nav');
   if (sectionNav) {
     sectionNav.addEventListener('click', function (e) {
@@ -22,14 +116,19 @@
       } else {
         window.location.hash = href;
       }
-      var instant =
-        window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      target.scrollIntoView({
-        block: 'start',
-        behavior: instant ? 'auto' : 'smooth'
-      });
+      var behavior = prefersReducedMotion() ? 'auto' : 'smooth';
+      scrollSectionToTop(target, behavior);
     });
+  }
+
+  if (location.hash && location.hash.length > 1) {
+    var hashId = decodeURIComponent(location.hash.slice(1));
+    var hashEl = document.getElementById(hashId);
+    if (hashEl && hashEl.classList.contains('page-section')) {
+      requestAnimationFrame(function () {
+        scrollSectionToTop(hashEl, prefersReducedMotion() ? 'auto' : 'smooth');
+      });
+    }
   }
 
   // Hero / intro: reveal immediately (no scroll-reveal delay)
@@ -93,7 +192,6 @@
 
   // Highlight nav link for section in view
   var nav = document.getElementById('section-nav');
-  var sectionIds = ['introduction', 'work', 'education-certifications', 'contact'];
   var firstLink = nav && nav.querySelector('a[href="#introduction"]');
   if (firstLink) firstLink.classList.add('nav-active');
   if (nav && typeof IntersectionObserver !== 'undefined') {
