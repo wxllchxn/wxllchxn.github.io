@@ -31,15 +31,29 @@ title: William Wei-Chi Chen
         </div>
       </div>
     </div>
-    <div class="scroll-hint" aria-hidden="true">Scroll</div>
   </div>
+  <div class="scroll-hint" aria-hidden="true">Scroll</div>
 </section>
 
 <section id="work" class="page-section">
   <div class="section-inner">
     <h2>Work Experience</h2>
     <p class="section-tagline">Building products at scale — from mobile to platform.</p>
-    <div class="work-tabs" aria-label="Work experience">
+    <div class="work-mobile-cards" aria-label="Work experience">
+      {% for company in site.data.experience %}
+      <div class="education-item work-mobile-card">
+        <div class="rail-icon rail-icon-work-{{ company.icon_key }}">{{ company.icon_label }}</div>
+        <div class="rail-card-body">
+          <p><strong>{{ company.company }}</strong></p>
+          <p class="edu-meta">{{ company.location }} · <em>{{ company.button_dates }}</em></p>
+          {% for role in company.roles %}
+          <p class="work-mobile-role">{{ role.title }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="work-tabs" aria-label="Work experience — full details">
       <div class="work-tabs-card">
         <div class="tab-buttons" role="tablist">
           {% for company in site.data.experience %}

@@ -1,6 +1,17 @@
 (function () {
   'use strict';
 
+  function isMobileLayout() {
+    return (
+      window.matchMedia &&
+      window.matchMedia('(max-width: 720px)').matches
+    );
+  }
+
+  if ('scrollRestoration' in history && isMobileLayout()) {
+    history.scrollRestoration = 'manual';
+  }
+
   var sectionIds = [
     'introduction',
     'work',
@@ -22,12 +33,42 @@
     );
   }
 
-  /** Align section bottom to viewport bottom (matches scroll-snap-align: end). */
+  var scrollSnapRestoreTimer = null;
+
+  /**
+   * Align section bottom to viewport bottom (matches scroll-snap-align: end).
+   * During smooth scroll on desktop, mandatory snap can fight the animation and
+   * leave a small upward correction; temporarily turn snap off until scroll settles.
+   */
   function scrollSectionToBottom(el, behavior) {
+    var root = document.documentElement;
     var top = el.getBoundingClientRect().top + window.scrollY;
     var bottom = top + el.offsetHeight;
     var y = bottom - window.innerHeight;
     var clamped = Math.min(Math.max(0, y), maxDocumentScrollY());
+    var needsScroll =
+      isDesktopSectionNav() &&
+      behavior === 'smooth' &&
+      Math.abs(clamped - window.scrollY) > 1;
+    if (needsScroll) {
+      if (scrollSnapRestoreTimer) {
+        window.clearTimeout(scrollSnapRestoreTimer);
+        scrollSnapRestoreTimer = null;
+      }
+      root.style.scrollSnapType = 'none';
+      var restored = false;
+      function restoreScrollSnap() {
+        if (restored) return;
+        restored = true;
+        if (scrollSnapRestoreTimer) {
+          window.clearTimeout(scrollSnapRestoreTimer);
+          scrollSnapRestoreTimer = null;
+        }
+        root.style.scrollSnapType = '';
+      }
+      window.addEventListener('scrollend', restoreScrollSnap, { once: true });
+      scrollSnapRestoreTimer = window.setTimeout(restoreScrollSnap, 1000);
+    }
     window.scrollTo({ top: clamped, behavior: behavior });
   }
 
@@ -108,6 +149,24 @@
   // Top nav: align section bottom to viewport bottom (matches CSS scroll-snap end).
   var sectionNav = document.getElementById('section-nav');
   if (sectionNav) {
+    // Same idea as work tabs: focused nav links should not trigger scroll-into-view.
+    sectionNav.addEventListener(
+      'mousedown',
+      function (e) {
+        var link = e.target.closest && e.target.closest('a[href^="#"]');
+        if (!link || !sectionNav.contains(link)) return;
+        var href = link.getAttribute('href');
+        if (!href || href.length < 2) return;
+        if (!document.getElementById(href.slice(1))) return;
+        if (typeof link.focus !== 'function') return;
+        try {
+          link.focus({ preventScroll: true });
+        } catch (err) {
+          link.focus();
+        }
+      },
+      true
+    );
     sectionNav.addEventListener('click', function (e) {
       var link = e.target.closest && e.target.closest('a[href^="#"]');
       if (!link || !sectionNav.contains(link)) return;
@@ -137,8 +196,28 @@
     if (hashEl && hashEl.classList.contains('page-section')) {
       requestAnimationFrame(function () {
         scrollSectionToBottom(hashEl, prefersReducedMotion() ? 'auto' : 'smooth');
+        if (hashId === 'introduction' && isMobileLayout()) {
+          var introInner = document.querySelector('#introduction .section-inner');
+          if (introInner) introInner.scrollTop = 0;
+        }
       });
     }
+  } else if (isMobileLayout()) {
+    function resetMobileIntroView() {
+      window.scrollTo(0, 0);
+      var introInner = document.querySelector('#introduction .section-inner');
+      if (introInner) introInner.scrollTop = 0;
+    }
+    resetMobileIntroView();
+    requestAnimationFrame(function () {
+      requestAnimationFrame(resetMobileIntroView);
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(resetMobileIntroView).catch(function () {});
+    }
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) resetMobileIntroView();
+    });
   }
 
   // Hero / intro: reveal immediately (no scroll-reveal delay)
@@ -163,7 +242,7 @@
     sections.forEach(function (el) { el.classList.add('revealed'); });
   }
 
-  // Work experience tabs (panels must live under #work — not only inside .work-tab-panels, for robustness)
+  // Work experience tabs (desktop only — mobile uses .work-mobile-cards; .work-tabs is hidden via CSS)
   var workRoot = document.getElementById('work');
   var tabList = workRoot && workRoot.querySelector('.tab-buttons[role="tablist"]');
   if (tabList && workRoot) {

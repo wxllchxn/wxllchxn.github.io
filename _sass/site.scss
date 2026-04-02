@@ -120,14 +120,18 @@ body.site-body {
 
 // --- Hero / Introduction section ---
 #introduction.page-section {
+  // .scroll-hint is a direct child (sibling of .section-inner) so it stays visible; hero scrolls inside .section-inner
   .section-inner {
-    min-height: calc(100vh - #{$nav-height});
-    min-height: calc(100dvh - #{$nav-height});
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 1rem;
+    flex: 1 1 0%;
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
     padding-top: clamp(1rem, 3vh, 1.5rem);
-    padding-bottom: 1rem;
+    padding-bottom: 0.35rem;
+    box-sizing: border-box;
   }
 
   &::before {
@@ -264,9 +268,13 @@ body.site-body {
   }
 
   .scroll-hint {
-    position: static;
-    margin: 0 auto;
-    padding-top: 0;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0.25rem 0 0.65rem;
+    text-align: center;
     font-size: $fs-caption;
     color: $color-text-muted;
     letter-spacing: 0.1em;
@@ -765,6 +773,28 @@ body.site-body {
   font-size: $fs-rail-cert;
 }
 
+.rail-icon-work-netflix {
+  background: linear-gradient(135deg, #b20710, #e50914);
+  color: #fff;
+  font-size: $fs-rail-cert;
+}
+
+.rail-icon-work-amazon {
+  background: linear-gradient(135deg, #111827, #232f3e);
+  color: #ffb11a;
+  font-size: $fs-rail-cert;
+}
+
+.rail-icon-work-tailabs {
+  background: linear-gradient(135deg, #0f766e, #155e75);
+  color: #fff;
+  font-size: $fs-rail-cert;
+}
+
+.work-mobile-cards {
+  display: none;
+}
+
 .edu-meta {
   color: $color-text-muted;
   font-size: $fs-meta;
@@ -941,15 +971,50 @@ body.site-body {
   #contact .section-inner {
     padding-top: calc(#{$nav-height} + 0.85rem);
   }
+
+  #work .work-mobile-cards {
+    display: none !important;
+  }
 }
 
 @media (max-width: 720px) {
-  #work.page-section {
-    overscroll-behavior-y: contain;
+  html {
+    scroll-snap-type: y mandatory;
+    // Avoid post-load layout shift (e.g. fonts) moving the viewport down and hiding the hero scroll hint
+    overflow-anchor: none;
   }
 
   .page-section {
+    min-height: 0;
+    height: 100vh;
+    height: 100dvh;
     overflow-x: clip;
+    overflow-y: clip;
+    scroll-snap-align: end;
+    scroll-snap-stop: normal;
+  }
+
+  .page-section > .section-inner {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .site-footer {
+    scroll-snap-align: none;
+  }
+
+  // Pin first section to top on load; nav scrollSectionToBottom still lands correctly for a 100dvh-tall band
+  #introduction.page-section {
+    scroll-snap-align: start;
+  }
+
+  #introduction.page-section .section-inner {
+    justify-content: flex-start;
+    min-height: 0;
+    padding-top: calc(var(--nav-scroll-pad, #{$nav-height}) + 0.25rem);
+    padding-bottom: 0.25rem;
   }
 
   #introduction.page-section .intro-content {
@@ -958,6 +1023,11 @@ body.site-body {
     column-gap: 0.65rem;
     row-gap: 0.15rem;
     align-items: start;
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   #introduction.page-section .profile-photo {
@@ -1013,85 +1083,48 @@ body.site-body {
     max-width: none;
   }
 
-  #work .section-inner {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    padding-top: 1rem;
-  }
-
-  #work .work-tabs {
-    flex: 1;
-    min-height: 0;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-x: clip;
-    max-width: 100%;
-  }
-
-  #work .work-tabs-card {
-    flex: 1;
-    min-height: 52dvh;
-    min-width: 0;
-    max-width: 100%;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 0.65rem;
-    background: $color-card-bg;
-    backdrop-filter: blur(8px);
-    border-radius: $radius;
-    padding: 0.65rem 0.75rem;
-    box-shadow: $shadow;
-    overflow-x: clip;
-  }
-
-  #work .tab-buttons {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    margin-bottom: 0;
-    gap: 0.35rem;
-    width: auto;
-    flex-shrink: 0;
-    align-self: flex-start;
-    justify-content: flex-start;
-  }
-
-  #work .tab-buttons button {
-    width: 2.75rem;
-    min-width: 2.75rem;
-    max-width: none;
-    padding: 0.45rem;
-    justify-content: center;
-  }
-
-  #work .work-tab-copy {
+  #work .section-tagline {
     display: none;
   }
 
-  #work .work-tab-panels {
-    flex: 1;
-    min-width: 0;
-    max-width: 100%;
+  #work.page-section h2 {
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.45rem;
+  }
+
+  #work .section-inner {
     display: flex;
     flex-direction: column;
-    overflow-x: clip;
+    justify-content: flex-start;
+    min-height: 0;
+    padding-top: unquote("max(calc(var(--nav-scroll-pad, #{$nav-height}) + 0.25rem), 20dvh)");
+    padding-bottom: 1rem;
   }
 
-  #work .tab-panel {
-    overflow-x: hidden;
-    flex: 1;
-    min-height: 0;
+  #work .work-tabs {
+    display: none !important;
+  }
+
+  .work-mobile-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 0 1 auto;
     min-width: 0;
     max-width: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-    margin-bottom: 0;
+    overflow: visible;
   }
 
-  .tab-panel-header {
-    grid-template-columns: 1fr;
+  #work .work-mobile-card.education-item {
+    min-height: 0;
+  }
+
+  #work .work-mobile-role {
+    margin: 0.08rem 0 0 0;
+    font-size: $fs-small;
+    font-weight: 600;
+    color: $color-text;
+    line-height: 1.35;
   }
 
   .split-section-grid {
@@ -1151,59 +1184,39 @@ body.site-body {
     white-space: normal;
   }
 
-  #education-certifications.page-section {
-    min-height: 100vh;
-    min-height: 100dvh;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
   #education-certifications .section-inner {
+    min-height: 0;
+    justify-content: flex-start;
     align-items: stretch;
     align-self: stretch;
-    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: none;
     margin-left: 0;
     margin-right: 0;
-    min-height: calc(100vh - #{$nav-height});
-    min-height: calc(100dvh - #{$nav-height});
     box-sizing: border-box;
-    padding-top: 1rem;
+    padding-top: unquote("max(calc(var(--nav-scroll-pad, #{$nav-height}) + 0.25rem), 20dvh)");
     padding-bottom: 1.25rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
 
-  #contact.page-section {
-    min-height: 100vh;
-    min-height: 100dvh;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
   #contact .section-inner {
-    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
     max-width: none;
     margin-left: 0;
     margin-right: 0;
-    min-height: calc(100vh - #{$nav-height});
-    min-height: calc(100dvh - #{$nav-height});
     box-sizing: border-box;
+    padding-top: calc(var(--nav-scroll-pad, #{$nav-height}) + 0.85rem);
+    padding-bottom: 1.5rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
-  #work .tab-buttons button {
-    width: 2.5rem;
-    min-width: 2.5rem;
-  }
-
   .education-item {
     grid-template-columns: 40px 1fr;
   }
