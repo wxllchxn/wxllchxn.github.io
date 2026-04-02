@@ -15,11 +15,20 @@
     );
   }
 
-  function scrollSectionToTop(el, behavior) {
-    var nav = document.getElementById('section-nav');
-    var navH = nav ? nav.getBoundingClientRect().height : 0;
-    var y = el.getBoundingClientRect().top + window.scrollY - navH;
-    window.scrollTo({ top: Math.max(0, y), behavior: behavior });
+  function maxDocumentScrollY() {
+    return Math.max(
+      0,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+  }
+
+  /** Align section bottom to viewport bottom (matches scroll-snap-align: end). */
+  function scrollSectionToBottom(el, behavior) {
+    var top = el.getBoundingClientRect().top + window.scrollY;
+    var bottom = top + el.offsetHeight;
+    var y = bottom - window.innerHeight;
+    var clamped = Math.min(Math.max(0, y), maxDocumentScrollY());
+    window.scrollTo({ top: clamped, behavior: behavior });
   }
 
   function syncNavScrollPad() {
@@ -43,18 +52,19 @@
     return el.getBoundingClientRect().top + window.scrollY;
   }
 
-  /** Section whose top is at or just above the snap line (below nav). */
+  /** Section containing the viewport bottom (matches end snap semantics). */
   function getCurrentSectionIndex() {
-    var nav = document.getElementById('section-nav');
-    var navH = nav ? nav.getBoundingClientRect().height : 0;
-    var probe = window.scrollY + navH + 4;
-    var idx = 0;
+    var probe = window.scrollY + window.innerHeight - 8;
     for (var i = 0; i < sectionIds.length; i++) {
       var el = document.getElementById(sectionIds[i]);
       if (!el) continue;
-      if (sectionDocumentTop(el) <= probe) idx = i;
+      var t = sectionDocumentTop(el);
+      var b = t + el.offsetHeight;
+      if (probe >= t && probe < b) return i;
     }
-    return idx;
+    var first = document.getElementById(sectionIds[0]);
+    if (first && probe < sectionDocumentTop(first)) return 0;
+    return sectionIds.length - 1;
   }
 
   function focusIsEditable(el) {
@@ -92,10 +102,10 @@
       window.location.hash = href;
     }
     var behavior = prefersReducedMotion() ? 'auto' : 'smooth';
-    scrollSectionToTop(target, behavior);
+    scrollSectionToBottom(target, behavior);
   });
 
-  // Top nav: align section top to just below the sticky nav (measured; avoids scrollIntoView / padding mismatch).
+  // Top nav: align section bottom to viewport bottom (matches CSS scroll-snap end).
   var sectionNav = document.getElementById('section-nav');
   if (sectionNav) {
     sectionNav.addEventListener('click', function (e) {
@@ -117,7 +127,7 @@
         window.location.hash = href;
       }
       var behavior = prefersReducedMotion() ? 'auto' : 'smooth';
-      scrollSectionToTop(target, behavior);
+      scrollSectionToBottom(target, behavior);
     });
   }
 
@@ -126,7 +136,7 @@
     var hashEl = document.getElementById(hashId);
     if (hashEl && hashEl.classList.contains('page-section')) {
       requestAnimationFrame(function () {
-        scrollSectionToTop(hashEl, prefersReducedMotion() ? 'auto' : 'smooth');
+        scrollSectionToBottom(hashEl, prefersReducedMotion() ? 'auto' : 'smooth');
       });
     }
   }
@@ -210,7 +220,8 @@
           });
         });
       },
-      { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
+      // Band biased to upper viewport; content sits below nav padding after end snap.
+      { rootMargin: '-28% 0px -52% 0px', threshold: 0 }
     );
     sectionIds.forEach(function (id) {
       var el = document.getElementById(id);

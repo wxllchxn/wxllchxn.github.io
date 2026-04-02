@@ -197,7 +197,9 @@ body.site-body {
   }
 
   .intro-role::after {
-    content: " · ";
+    content: "\00b7";
+    margin-inline: 0.35em;
+    white-space: nowrap;
   }
 
   .intro-below {
@@ -901,14 +903,31 @@ body.site-body {
     scroll-snap-type: y mandatory;
   }
 
+  // Snap targets must not be scroll containers: nested overflow steals wheel events and breaks
+  // document scroll-snap (especially when scrolling up). Scroll lives on .section-inner instead.
   .page-section {
-    scroll-snap-align: start;
+    min-height: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: clip;
+    scroll-snap-align: end;
     // normal: fast scroll can pass a section; avoids a second “snap back” after inertia settles.
     scroll-snap-stop: normal;
   }
 
+  .page-section > .section-inner {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
   .site-footer {
     scroll-snap-align: none;
+  }
+
+  #introduction .section-inner {
+    padding-top: calc(#{$nav-height} + 0.85rem);
   }
 
   #work .section-inner {
@@ -917,6 +936,10 @@ body.site-body {
 
   #education-certifications .section-inner {
     padding-top: calc(#{$nav-height} + 0.5rem);
+  }
+
+  #contact .section-inner {
+    padding-top: calc(#{$nav-height} + 0.85rem);
   }
 }
 
